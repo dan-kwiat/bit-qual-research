@@ -1,0 +1,11 @@
+# Table of contents
+# Learn more at https://jupyterbook.org/customize/toc.html
+
+format: jb-book
+root: README
+
+# Part I
+chapters:
+  - file: count_tokens.ipynb
+  - file: get_embeddings.ipynb
+  - file: clustering.ipynb

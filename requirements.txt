@@ -1,0 +1,5 @@
+jupyter-book
+pandas
+tiktoken
+openai
+numpy
