@@ -3,3 +3,6 @@ pandas
 tiktoken
 openai
 numpy
+plotly
+scipy
+sklearn
