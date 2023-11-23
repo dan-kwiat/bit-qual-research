@@ -5,4 +5,5 @@ openai
 numpy
 plotly
 scipy
-sklearn
+scikit-learn
+matplotlib
