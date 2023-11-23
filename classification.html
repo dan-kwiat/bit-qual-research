@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>1. Load the dataset &#8212; Jupyter Book Demo</title>
+    <title>Classification (sentiment) &#8212; Jupyter Book Demo</title>
   
   
   
@@ -62,11 +62,11 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="_static/sphinx-thebe.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'get_embeddings';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'classification';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Clustering" href="clustering.html" />
-    <link rel="prev" title="Classification (sentiment)" href="classification.html" />
+    <link rel="next" title="1. Load the dataset" href="get_embeddings.html" />
+    <link rel="prev" title="Qualitative research with LLMs" href="README.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -162,11 +162,11 @@ const thebe_selector_output = ".output, .cell_output"
             </li>
         </ul>
         <ul class="current nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="classification.html">Classification (sentiment)</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Classification (sentiment)</a></li>
 
 
 
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">1. Load the dataset</a></li>
+<li class="toctree-l1"><a class="reference internal" href="get_embeddings.html">1. Load the dataset</a></li>
 
 <li class="toctree-l1"><a class="reference internal" href="clustering.html">Clustering</a></li>
 </ul>
@@ -223,7 +223,7 @@ const thebe_selector_output = ".output, .cell_output"
       
       
       
-      <li><a href="https://colab.research.google.com/github/dan-kwiat/bit-qual-research/blob/main/get_embeddings.ipynb" target="_blank"
+      <li><a href="https://colab.research.google.com/github/dan-kwiat/bit-qual-research/blob/main/classification.ipynb" target="_blank"
    class="btn btn-sm dropdown-item"
    title="Launch onColab"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -271,7 +271,7 @@ const thebe_selector_output = ".output, .cell_output"
       
       
       
-      <li><a href="https://github.com/dan-kwiat/bit-qual-research/issues/new?title=Issue%20on%20page%20%2Fget_embeddings.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/dan-kwiat/bit-qual-research/issues/new?title=Issue%20on%20page%20%2Fclassification.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
    title="Open an issue"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -301,7 +301,7 @@ const thebe_selector_output = ".output, .cell_output"
       
       
       
-      <li><a href="_sources/get_embeddings.ipynb" target="_blank"
+      <li><a href="_sources/classification.ipynb" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -383,7 +383,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>1. Load the dataset</h1>
+    <h1>Classification (sentiment)</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -393,8 +393,10 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">1. Load the dataset</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#get-embeddings-and-save-them-for-future-reuse">2. Get embeddings and save them for future reuse</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Classification (sentiment)</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#load-the-data">Load the data</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#classify-every-response">Classify every response</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-the-results">Plot the results</a></li>
 </ul>
 
             </nav>
@@ -407,72 +409,86 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section id="load-the-dataset">
-<h1>1. Load the dataset<a class="headerlink" href="#load-the-dataset" title="Permalink to this heading">#</a></h1>
-<p>The dataset used in this example is survey data on food waste during ramadan
-(provided by Jordan W-M)</p>
-<p>To run this notebook, you will need to install: pandas, openai, transformers,
-plotly, matplotlib, scikit-learn, torch (transformer dep), torchvision, and
-scipy.</p>
+  <section id="classification-sentiment">
+<h1>Classification (sentiment)<a class="headerlink" href="#classification-sentiment" title="Permalink to this heading">#</a></h1>
+<p>This script is a demonstration of how to classify free text survey responses
+according to pre-defined categories - in this case positive/neutral/negative
+sentiment. The script takes a csv of survey data - one row per participant - and
+asks a large language model (LLM) to classify each response one-by-one,
+zero-shot without any training.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">from</span> <span class="nn">openai</span> <span class="kn">import</span> <span class="n">OpenAI</span>
-<span class="n">client</span> <span class="o">=</span> <span class="n">OpenAI</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">get_embedding</span><span class="p">(</span><span class="nb">input</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-    <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">embeddings</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
-      <span class="nb">input</span><span class="o">=</span><span class="nb">input</span><span class="p">,</span>
-      <span class="n">model</span><span class="o">=</span><span class="s2">&quot;text-embedding-ada-002&quot;</span>
-    <span class="p">)</span>
-    <span class="k">return</span> <span class="n">response</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">embedding</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># input_datapath = &quot;data/english_free_text.csv&quot;</span>
-<span class="c1"># headers = [&quot;whyRamLess&quot;, &quot;whyCompMore&quot;, &quot;whyProblemSoc&quot;, &quot;encourage&quot;]</span>
-<span class="c1"># cols_to_embed = [&quot;whyRamLess&quot;, &quot;whyCompMore&quot;, &quot;whyProblemSoc&quot;, &quot;encourage&quot;]</span>
-<span class="c1"># index_col = 0</span>
+<span class="kn">import</span> <span class="nn">lib</span>
+<span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span> 
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="n">tqdm</span><span class="o">.</span><span class="n">pandas</span><span class="p">()</span>
 
-<span class="n">input_datapath</span> <span class="o">=</span> <span class="s2">&quot;data/gambling_feedback_data.csv&quot;</span>
-<span class="n">headers</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;feedback&quot;</span><span class="p">,</span><span class="s2">&quot;treatment&quot;</span><span class="p">,</span><span class="s2">&quot;limit_on&quot;</span><span class="p">,</span><span class="s2">&quot;block_on&quot;</span><span class="p">]</span>
-<span class="n">cols_to_embed</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;feedback&quot;</span><span class="p">]</span>
-<span class="n">index_col</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="n">input_datapath</span> <span class="o">=</span> <span class="s2">&quot;./data/gambling_feedback_data.csv&quot;</span>
+<span class="n">index_col</span><span class="o">=</span><span class="kc">None</span>
+<span class="n">text_col</span> <span class="o">=</span> <span class="s2">&quot;feedback&quot;</span>
+<span class="n">survey_question_full</span> <span class="o">=</span> <span class="s1">&#39;Do you have any other feedback on the design of the gambling management tool?&#39;</span>
+<span class="n">category_options</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Positive sentiment&#39;</span><span class="p">,</span> <span class="s1">&#39;Negative sentiment&#39;</span><span class="p">,</span> <span class="s1">&#39;Neutral sentiment&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
 </div>
+<p>The variables above can be customised to do any classification on any CSV
+containing free text survey responses. For example you could change the
+categories to
+<code class="docutils literal notranslate"><span class="pre">category_options</span> <span class="pre">=</span> <span class="pre">['Mentions</span> <span class="pre">potholes',</span> <span class="pre">'Does</span> <span class="pre">not</span> <span class="pre">mention</span> <span class="pre">potholes']</span></code></p>
+<p>The file <a class="reference download internal" download="" href="_downloads/0d54c66dabf9bb43178a156aae6602a6/lib.py"><span class="xref download myst">lib.py</span></a> contains a method which constructs a prompt for the
+LLM to classify a particular survey response. Let’s see what the prompt looks
+like with an example question &amp; answer:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">embedding_encoding</span> <span class="o">=</span> <span class="s2">&quot;cl100k_base&quot;</span>  <span class="c1"># this the encoding for text-embedding-ada-002</span>
-<span class="n">max_tokens</span> <span class="o">=</span> <span class="mi">8000</span>  <span class="c1"># the maximum for text-embedding-ada-002 is 8191</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># load &amp; inspect dataset</span>
-<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">input_datapath</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="n">index_col</span><span class="p">)</span>
-<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">headers</span><span class="p">]</span>
-
-<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
-<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">applymap</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">else</span> <span class="n">x</span><span class="p">)</span>
-
-<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">prompt</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="n">lib</span><span class="o">.</span><span class="n">get_classification_prompt</span><span class="p">(</span><span class="s1">&#39;Why is the sky blue?&#39;</span><span class="p">,</span> <span class="s2">&quot;Because it&#39;s a beautiful day today&quot;</span><span class="p">,</span> <span class="n">category_options</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">prompt</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/var/folders/4c/5kctcgk55539047v8xy3clj80000gn/T/ipykernel_91074/3179908913.py:6: FutureWarning: DataFrame.applymap has been deprecated. Use DataFrame.map instead.
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Here is a survey question, and an answer from one of the participants:
+
+Q: Why is the sky blue?
+A: Because it&#39;s a beautiful day today
+
+Please classify the answer as one of the following options:
+
+A. Positive sentiment
+B. Negative sentiment
+C. Neutral sentiment
+
+Respond directly with the label and nothing else e.g. &quot;A&quot;
+</pre></div>
+</div>
+</div>
+</div>
+<blockquote>
+<div><p>Note to consider: does <code class="docutils literal notranslate"><span class="pre">e.g.</span> <span class="pre">&quot;A&quot;</span></code> at the end of the prompt bias the AI towards
+the first option?</p>
+</div></blockquote>
+</section>
+<section id="load-the-data">
+<h1>Load the data<a class="headerlink" href="#load-the-data" title="Permalink to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">input_datapath</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="n">index_col</span><span class="p">)</span>
+<span class="c1"># df = df[headers]</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">applymap</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">else</span> <span class="n">x</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(2164, 4)
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/var/folders/4c/5kctcgk55539047v8xy3clj80000gn/T/ipykernel_4443/3445066923.py:5: FutureWarning: DataFrame.applymap has been deprecated. Use DataFrame.map instead.
   df = df.applymap(lambda x: x.strip() if isinstance(x, str) else x)
 </pre></div>
 </div>
@@ -515,51 +531,139 @@ scipy.</p>
       <td>0</td>
       <td>0</td>
     </tr>
+    <tr>
+      <th>2</th>
+      <td>was easy to see, and use the app.</td>
+      <td>3</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>i found it brilluant im nit a huge gamalaer bu...</td>
+      <td>2</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>is it not too easy for a person with a gamblin...</td>
+      <td>2</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
   </tbody>
 </table>
 </div></div></div>
 </div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># # subsample to 1k most recent reviews and remove samples that are too long</span>
-<span class="c1"># top_n = 1000</span>
-<span class="c1"># # first cut to first 2k entries, assuming less than half will be filtered out</span>
-<span class="c1"># df = df.tail(top_n * 2)</span>
-
-<span class="c1"># encoding = tiktoken.get_encoding(embedding_encoding)</span>
-
-<span class="c1"># questionId = 0  # the first question</span>
-
-<span class="c1"># # omit reviews that are too long to embed</span>
-<span class="c1"># df[&quot;n_tokens&quot;] = df.iloc[:, questionId].apply(lambda x: len(encoding.encode(x)))</span>
-
-<span class="c1"># df = df[df.n_tokens &lt;= max_tokens].tail(top_n)</span>
-<span class="c1"># len(df)</span>
-</pre></div>
-</div>
-</div>
-</div>
 </section>
-<section id="get-embeddings-and-save-them-for-future-reuse">
-<h1>2. Get embeddings and save them for future reuse<a class="headerlink" href="#get-embeddings-and-save-them-for-future-reuse" title="Permalink to this heading">#</a></h1>
+<section id="classify-every-response">
+<h1>Classify every response<a class="headerlink" href="#classify-every-response" title="Permalink to this heading">#</a></h1>
+<p>This could take the best part of an hour for 2000 responses. Your OpenAI account
+may need to be active for a certain number of days, and have spent a certain
+amount of money for this to work.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Ensure you have your API key set in your environment per the README: https://github.com/openai/openai-python#usage</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;category_index&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">text_col</span><span class="p">]</span><span class="o">.</span><span class="n">progress_apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">lib</span><span class="o">.</span><span class="n">classify_answer</span><span class="p">(</span><span class="n">survey_question_full</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">category_options</span><span class="p">))</span>
 
-<span class="c1"># This may take a few minutes</span>
-<span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">cols_to_embed</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Getting embeddings for column &quot;</span><span class="si">{</span><span class="n">col</span><span class="si">}</span><span class="s1">&quot;&#39;</span><span class="p">)</span>
-    <span class="n">df</span><span class="p">[</span><span class="n">col</span> <span class="o">+</span> <span class="s2">&quot;-embedding&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">get_embedding</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">input_datapath</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">_with_categories.csv&quot;</span><span class="p">)</span>
 
-
-<span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">input_datapath</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">_with_embeddings.csv&quot;</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()[[</span><span class="n">text_col</span><span class="p">,</span> <span class="s1">&#39;category_index&#39;</span><span class="p">]]</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Getting embeddings for column &quot;feedback&quot;
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|          | 0/2164 [00:00&lt;?, ?it/s]
 </pre></div>
 </div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 2164/2164 [50:53&lt;00:00,  1.41s/it]   
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>feedback</th>
+      <th>category_index</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>good</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>no it was helpful</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>was easy to see, and use the app.</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>i found it brilluant im nit a huge gamalaer bu...</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>is it not too easy for a person with a gamblin...</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+<section id="plot-the-results">
+<h1>Plot the results<a class="headerlink" href="#plot-the-results" title="Permalink to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">plot_categories</span><span class="p">(</span><span class="n">treatment</span><span class="p">,</span> <span class="n">num_samples</span><span class="p">):</span>
+    <span class="n">labels</span> <span class="o">=</span> <span class="n">category_options</span>
+    <span class="n">counts</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;treatment&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">treatment</span><span class="p">][</span><span class="s1">&#39;category_index&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+    <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">pie</span><span class="p">(</span><span class="n">counts</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="n">labels</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">counts</span><span class="o">.</span><span class="n">index</span><span class="p">],</span> <span class="n">autopct</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%1.1f%%</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Treatment </span><span class="si">{</span><span class="n">treatment</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">num_samples</span><span class="si">}</span><span class="s2"> samples)&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">num_samples_by_treatment</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;treatment&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+<span class="n">min_treatment</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;treatment&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
+<span class="n">max_treatment</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;treatment&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">treatment</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">min_treatment</span><span class="p">,</span> <span class="n">max_treatment</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+    <span class="n">plot_categories</span><span class="p">(</span><span class="n">treatment</span><span class="p">,</span> <span class="n">num_samples_by_treatment</span><span class="p">[</span><span class="n">treatment</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/518fcaef0da655fe300457b3259be48d147e5a2bb6eea5ecadd314b4e3984e8e.png" src="_images/518fcaef0da655fe300457b3259be48d147e5a2bb6eea5ecadd314b4e3984e8e.png" />
+<img alt="_images/1563ff94b92d352b0bcfe2b978bd4c709b17b8601df39fad6adbe780620eb09d.png" src="_images/1563ff94b92d352b0bcfe2b978bd4c709b17b8601df39fad6adbe780620eb09d.png" />
+<img alt="_images/3c97feddd07fc4bd045920fe75f018341245eb7cb60d69f34a37a5e231698272.png" src="_images/3c97feddd07fc4bd045920fe75f018341245eb7cb60d69f34a37a5e231698272.png" />
+<img alt="_images/51dc3204b7d2f96b0a07f01e04af1c23f2c8fbcfd1580d1560cc9fe154c23bb1.png" src="_images/51dc3204b7d2f96b0a07f01e04af1c23f2c8fbcfd1580d1560cc9fe154c23bb1.png" />
+<img alt="_images/4532862bf613e714afadb2a2f1f971589a30ac0a5ac33896f72e6f44f25b6540.png" src="_images/4532862bf613e714afadb2a2f1f971589a30ac0a5ac33896f72e6f44f25b6540.png" />
 </div>
 </div>
 </section>
@@ -595,20 +699,20 @@ scipy.</p>
                   <!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
-       href="classification.html"
+       href="README.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Classification (sentiment)</p>
+        <p class="prev-next-title">Qualitative research with LLMs</p>
       </div>
     </a>
     <a class="right-next"
-       href="clustering.html"
+       href="get_embeddings.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Clustering</p>
+        <p class="prev-next-title">1. Load the dataset</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -627,8 +731,10 @@ scipy.</p>
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">1. Load the dataset</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#get-embeddings-and-save-them-for-future-reuse">2. Get embeddings and save them for future reuse</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Classification (sentiment)</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#load-the-data">Load the data</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#classify-every-response">Classify every response</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-the-results">Plot the results</a></li>
 </ul>
 
   </nav></div>
