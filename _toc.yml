@@ -7,5 +7,5 @@ root: README
 # Part I
 chapters:
   - file: classification.ipynb
-  - file: get_embeddings.ipynb
   - file: clustering.ipynb
+  - file: get_embeddings.ipynb
