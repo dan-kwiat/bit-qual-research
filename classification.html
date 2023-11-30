@@ -395,6 +395,7 @@ document.write(`
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#load-the-data">Load the data</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#classify-every-response">Classify every response</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#show-examples-from-each-category">Show examples from each category</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-the-results">Plot the results</a></li>
 </ul>
             </nav>
@@ -563,7 +564,7 @@ amount of money for this to work.</p>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;category_index&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">text_col</span><span class="p">]</span><span class="o">.</span><span class="n">progress_apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">lib</span><span class="o">.</span><span class="n">classify_answer</span><span class="p">(</span><span class="n">survey_question_full</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">category_options</span><span class="p">))</span>
 
-<span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">input_datapath</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">_with_categories.csv&quot;</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;/&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">x</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">input_datapath</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="s1">&#39;&#39;</span><span class="p">])</span><span class="si">}</span><span class="s2">_with_categories.csv&quot;</span><span class="p">)</span>
 
 <span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()[[</span><span class="n">text_col</span><span class="p">,</span> <span class="s1">&#39;category_index&#39;</span><span class="p">]]</span>
 </pre></div>
@@ -627,6 +628,48 @@ amount of money for this to work.</p>
   </tbody>
 </table>
 </div></div></div>
+</div>
+</section>
+<section id="show-examples-from-each-category">
+<h2>Show examples from each category<a class="headerlink" href="#show-examples-from-each-category" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">category_options</span><span class="p">)):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Category: </span><span class="si">{</span><span class="n">category_options</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">lib</span><span class="o">.</span><span class="n">get_answers_string</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;category_index&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">i</span><span class="p">][</span><span class="n">text_col</span><span class="p">]</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Category: Positive sentiment
+
+- &quot;was easy to use&quot;
+- &quot;none seems easy&quot;
+- &quot;its an easy app to use&quot;
+- &quot;it seems intuitive to use&quot;
+- &quot;i think it’s a good idea for people who need to set a limit on how much they spend&quot;
+
+
+Category: Negative sentiment
+
+- &quot;a bit confusing…should say…do you want to set a gambling limit…..yes/no…press yes go to another page….set limit….it will ask you to confirm the amount&quot;
+- &quot;less wordy as it looks like a terms and conditions page&quot;
+ otherwise, i thought the page was very good.&quot;the button. i was unsure if the button was working or if it wasn&#39;t necessary for the survey. 
+- &quot;too much text on one screen - perhaps split up the functionality&quot;
+- &quot;wouldn’t use&quot;
+
+
+Category: Neutral sentiment
+
+- &quot;maybe a big helpline number&quot;
+- &quot;think it&#39;s good but would an addict use it&quot;
+- &quot;just make it clear you have to click to set the limit not just enter the amount&quot;
+- &quot;the gambling block button could be a bit brighter/bolder/bigger to make it stand out a bit more&quot;
+- &quot;not sure&quot;
+</pre></div>
+</div>
+</div>
 </div>
 </section>
 <section id="plot-the-results">
@@ -722,6 +765,7 @@ amount of money for this to work.</p>
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#load-the-data">Load the data</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#classify-every-response">Classify every response</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#show-examples-from-each-category">Show examples from each category</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-the-results">Plot the results</a></li>
 </ul>
   </nav></div>
