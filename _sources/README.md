@@ -1,7 +1,19 @@
 # Qualitative research with LLMs
 
-## Counting tokens
+```
+cp .env.example .env
+```
+
+<!-- ## Counting tokens -->
+
+## Classification (sentiment analysis)
+
+[classification.ipynb](classification.ipynb)
+
+## Clustering (on embeddings)
+
+[clustering.ipynb](clustering.ipynb)
 
 ## Getting embeddings
 
-## Clustering text samples
+[get_embeddings.ipynb](get_embeddings.ipynb)
