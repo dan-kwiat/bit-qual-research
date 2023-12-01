@@ -1,0 +1,736 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Clustering &#8212; Jupyter Book Demo</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=5b4479735964841361fd" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
+  <script src="_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'clustering';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Calculate vector embeddings" href="get_embeddings.html" />
+    <link rel="prev" title="Classification (sentiment)" href="classification.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+
+<a class="navbar-brand logo" href="README.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Jupyter Book Demo</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="README.html">
+                    Qualitative research with LLMs
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="classification.html">Classification (sentiment)</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Clustering</a></li>
+<li class="toctree-l1"><a class="reference internal" href="get_embeddings.html">Calculate vector embeddings</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/dan-kwiat/bit-qual-research" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/dan-kwiat/bit-qual-research/issues/new?title=Issue%20on%20page%20%2Fclustering.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/clustering.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Clustering</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#find-the-clusters-using-k-means">Find the clusters using K-means</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualise-the-clusters">Visualise the clusters</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#describe-each-cluster">Describe each cluster</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="clustering">
+<h1>Clustering<a class="headerlink" href="#clustering" title="Permalink to this heading">#</a></h1>
+<p>Clustering can help identify common themes in the data and segment the data
+according to those themes, allowing researchers to get broad insights and dig
+deeper into particular themes. Unlike <a class="reference internal" href="classification.html"><span class="doc std std-doc">classification</span></a>,
+where categories are pre-defined by the researcher, clustering automatically
+identifies different themes. The themes aren’t fixed - they will vary each time
+the script is run, especially if the parameters of the algorithm are tweaked.</p>
+<p>Here’s the approach we take to clustering:</p>
+<ol class="arabic simple">
+<li><p>Each survey response is converted into a vector “embedding” in a high
+dimensional space (&gt; 1000 dimensions). This vector encapsulates the semantic
+meaning of the text (see <a class="reference internal" href="get_embeddings.html"><span class="doc std std-doc">get_embeddings.ipynb</span></a>).</p></li>
+<li><p>The data is split into a number of distinct groups using a k-means clustering
+algorithm, which looks at the similarity between the embeddings. The number
+of resulting groups is something we specify at the start in the variable
+<code class="docutils literal notranslate"><span class="pre">n_clusters</span></code>.</p></li>
+<li><p>For each cluster, we take a sample of the raw text survey responses and ask
+GPT4 to summarise the theme of the cluster by identifying what each example
+has in common.</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">ast</span> <span class="kn">import</span> <span class="n">literal_eval</span>
+<span class="kn">from</span> <span class="nn">sklearn.cluster</span> <span class="kn">import</span> <span class="n">KMeans</span>
+<span class="kn">import</span> <span class="nn">lib</span>
+<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">display</span><span class="p">,</span> <span class="n">Markdown</span>
+
+<span class="n">datafile_path</span> <span class="o">=</span> <span class="s2">&quot;./data/gambling_feedback_data_with_embeddings.csv&quot;</span>
+<span class="n">text_col</span> <span class="o">=</span> <span class="s2">&quot;feedback&quot;</span>
+<span class="n">num_tokens_col</span> <span class="o">=</span> <span class="s1">&#39;feedback-num_tokens&#39;</span>
+<span class="n">embedding_col</span> <span class="o">=</span> <span class="s2">&quot;feedback-embedding&quot;</span>
+<span class="n">survey_context</span> <span class="o">=</span> <span class="s2">&quot;Participants have been shown a gambling management tool from a banking app, which allows blocking transactions related to gambling, and setting a monthly limit on how much money can be spent on gambling.&quot;</span>
+<span class="n">survey_question_full</span> <span class="o">=</span> <span class="s2">&quot;Do you have any other feedback on the design of the gambling management tool?&quot;</span>
+<span class="n">min_tokens</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">treatment_arm</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="n">n_clusters</span> <span class="o">=</span> <span class="mi">4</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">datafile_path</span><span class="p">)</span>
+
+<span class="c1"># convert string to numpy array</span>
+<span class="n">df</span><span class="p">[</span><span class="n">embedding_col</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">embedding_col</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">literal_eval</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">)</span>
+
+<span class="c1"># remove short answers</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="n">num_tokens_col</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">min_tokens</span><span class="p">]</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;treatment&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">treatment_arm</span><span class="p">]</span>
+
+<span class="n">matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">embedding_col</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+<span class="n">matrix</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(130, 1536)
+</pre></div>
+</div>
+</div>
+</div>
+<section id="find-the-clusters-using-k-means">
+<h2>Find the clusters using K-means<a class="headerlink" href="#find-the-clusters-using-k-means" title="Permalink to this heading">#</a></h2>
+<p>Try experimenting with different values of <code class="docutils literal notranslate"><span class="pre">n_clusters</span></code>. A high number will
+focus on more specific patterns, whereas a small number will usually focus on
+the largest discrepencies in the data. See the
+<a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.cluster.k_means.html">scikit-learn k-means docs</a>
+for more information on the other parameters this algorithm takes.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">kmeans</span> <span class="o">=</span> <span class="n">KMeans</span><span class="p">(</span><span class="n">n_clusters</span><span class="o">=</span><span class="n">n_clusters</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="s2">&quot;k-means++&quot;</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">kmeans</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span>
+<span class="n">labels</span> <span class="o">=</span> <span class="n">kmeans</span><span class="o">.</span><span class="n">labels_</span>
+<span class="n">df</span><span class="p">[</span><span class="s2">&quot;Cluster&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">labels</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/opt/homebrew/lib/python3.11/site-packages/sklearn/cluster/_kmeans.py:1416: FutureWarning: The default value of `n_init` will change from 10 to &#39;auto&#39; in 1.4. Set the value of `n_init` explicitly to suppress the warning
+  super()._check_params_vs_input(X, default_n_init=10)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="visualise-the-clusters">
+<h2>Visualise the clusters<a class="headerlink" href="#visualise-the-clusters" title="Permalink to this heading">#</a></h2>
+<p>This is a crude visualisation, projecting 1536 dimensions onto a 2d plane.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.manifold</span> <span class="kn">import</span> <span class="n">TSNE</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="n">tsne</span> <span class="o">=</span> <span class="n">TSNE</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">perplexity</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="s2">&quot;random&quot;</span><span class="p">,</span> <span class="n">learning_rate</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
+<span class="n">vis_dims2</span> <span class="o">=</span> <span class="n">tsne</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">vis_dims2</span><span class="p">]</span>
+<span class="n">y</span> <span class="o">=</span> <span class="p">[</span><span class="n">y</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">vis_dims2</span><span class="p">]</span>
+
+<span class="n">rainbow_colors</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="s1">&#39;orange&#39;</span><span class="p">,</span> <span class="s1">&#39;yellow&#39;</span><span class="p">,</span> <span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="s1">&#39;purple&#39;</span><span class="p">,</span> <span class="s1">&#39;pink&#39;</span><span class="p">,</span> <span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="s1">&#39;gray&#39;</span><span class="p">,</span> <span class="s1">&#39;brown&#39;</span><span class="p">,</span> <span class="s1">&#39;cyan&#39;</span><span class="p">,</span> <span class="s1">&#39;magenta&#39;</span><span class="p">]</span>
+
+<span class="k">for</span> <span class="n">category</span><span class="p">,</span> <span class="n">color</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">rainbow_colors</span><span class="p">):</span>
+    <span class="n">xs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">x</span><span class="p">)[</span><span class="n">df</span><span class="o">.</span><span class="n">Cluster</span> <span class="o">==</span> <span class="n">category</span><span class="p">]</span>
+    <span class="n">ys</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">y</span><span class="p">)[</span><span class="n">df</span><span class="o">.</span><span class="n">Cluster</span> <span class="o">==</span> <span class="n">category</span><span class="p">]</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+
+    <span class="n">avg_x</span> <span class="o">=</span> <span class="n">xs</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+    <span class="n">avg_y</span> <span class="o">=</span> <span class="n">ys</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">avg_x</span><span class="p">,</span> <span class="n">avg_y</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Clusters identified visualized in language 2d using t-SNE&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/var/folders/4c/5kctcgk55539047v8xy3clj80000gn/T/ipykernel_93324/2463245879.py:17: RuntimeWarning: Mean of empty slice.
+  avg_x = xs.mean()
+/opt/homebrew/lib/python3.11/site-packages/numpy/core/_methods.py:129: RuntimeWarning: invalid value encountered in divide
+  ret = ret.dtype.type(ret / rcount)
+/var/folders/4c/5kctcgk55539047v8xy3clj80000gn/T/ipykernel_93324/2463245879.py:18: RuntimeWarning: Mean of empty slice.
+  avg_y = ys.mean()
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 1.0, &#39;Clusters identified visualized in language 2d using t-SNE&#39;)
+</pre></div>
+</div>
+<img alt="_images/a95dbef12f8f73597c1344cbd4c2219f01e79c99c875d68d40e285c0a7ef7cf1.png" src="_images/a95dbef12f8f73597c1344cbd4c2219f01e79c99c875d68d40e285c0a7ef7cf1.png" />
+</div>
+</div>
+</section>
+<section id="describe-each-cluster">
+<h2>Describe each cluster<a class="headerlink" href="#describe-each-cluster" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">get_cluster_markdown</span><span class="p">(</span><span class="n">cluster</span><span class="p">):</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;### Cluster </span><span class="si">{</span><span class="n">cluster</span><span class="p">[</span><span class="s2">&quot;index&quot;</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s1">: </span><span class="si">{</span><span class="n">cluster</span><span class="p">[</span><span class="s2">&quot;num_responses&quot;</span><span class="p">]</span><span class="si">}</span><span class="s1"> respondents.</span><span class="se">\n\n</span><span class="s1">#### Theme: **</span><span class="si">{</span><span class="n">cluster</span><span class="p">[</span><span class="s2">&quot;summary&quot;</span><span class="p">]</span><span class="si">}</span><span class="s1">**</span><span class="se">\n\n</span><span class="s1">#### Example responses:</span><span class="se">\n\n</span><span class="si">{</span><span class="n">lib</span><span class="o">.</span><span class="n">get_answers_string</span><span class="p">(</span><span class="n">cluster</span><span class="p">[</span><span class="s2">&quot;subset&quot;</span><span class="p">])</span><span class="si">}</span><span class="se">\n\n\n</span><span class="s1">&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">subset_size_max</span> <span class="o">=</span> <span class="mi">10</span>
+
+<span class="n">cluster_summaries</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_clusters</span><span class="p">):</span>
+    <span class="n">num_responses</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">Cluster</span> <span class="o">==</span> <span class="n">i</span><span class="p">])</span>
+    <span class="n">subset</span> <span class="o">=</span>  <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">Cluster</span> <span class="o">==</span> <span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="n">text_col</span><span class="p">]</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">subset_size_max</span><span class="p">,</span> <span class="n">num_responses</span><span class="p">),</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+    <span class="n">summary</span> <span class="o">=</span> <span class="n">lib</span><span class="o">.</span><span class="n">summarise_answers</span><span class="p">(</span><span class="n">survey_context</span><span class="p">,</span> <span class="n">survey_question_full</span><span class="p">,</span> <span class="n">subset</span><span class="p">)</span>
+    <span class="n">cluster_summaries</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+        <span class="s1">&#39;index&#39;</span><span class="p">:</span> <span class="n">i</span><span class="p">,</span>
+        <span class="s1">&#39;num_responses&#39;</span><span class="p">:</span> <span class="n">num_responses</span><span class="p">,</span>
+        <span class="s1">&#39;summary&#39;</span><span class="p">:</span> <span class="n">summary</span><span class="p">,</span>
+        <span class="s1">&#39;subset&#39;</span><span class="p">:</span> <span class="n">subset</span>
+    <span class="p">})</span>
+    <span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="n">get_cluster_markdown</span><span class="p">(</span><span class="n">cluster_summaries</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<p class="rubric">Cluster 1: 39 respondents.</p>
+<p class="rubric">Theme: <strong>The common theme in these answers is feedback on the usability and effectiveness of the gambling management tool, with suggestions for improving the user interface, the time delay feature for changing limits, and the overall functionality to better support responsible gambling.</strong></p>
+<p class="rubric">Example responses:</p>
+<ul class="simple">
+<li><p>“i struggled in trying to change the spending limit from £ 30 to £80. think i have locked my ability to do this for 48 hours.”</p></li>
+<li><p>“i like the ide of 48 hrs delay to make changes.”</p></li>
+<li><p>“no but maybe you should have a time block on it”</p></li>
+<li><p>“make it more than 48 hours because i can just turn it off and be fine in 2 days but for a week it’s more serious”</p></li>
+<li><p>“i think is perfect but their should be an option for one to reset the limit”</p></li>
+<li><p>“having a tick box for a complete block alongside the limit might be more intuitive than what feels like separate block / limit settings. if not fully paying attention it is currently very easy to apply a complete block without noticing the limit function.”</p></li>
+<li><p>“the ‘set limit of £80’ task showed that the set up was not intuitive. pressing the ‘set limit’ button took you away from the page and closed the action. i assume the page was set up so that the amount has to be set up first then the set limit button.”</p></li>
+<li><p>“simple enough but people will still be able to go to a bank and withdraw over the counter before setting limits”</p></li>
+<li><p>“seems like a good idea for most people but obviously across multiply accounts  i could still set each account to a limit”</p></li>
+<li><p>“i love the way you guys set a budget it make people know what they are doing”</p></li>
+</ul>
+<p class="rubric">Cluster 2: 30 respondents.</p>
+<p class="rubric">Theme: <strong>The common theme is skepticism about the effectiveness of the gambling management tool in preventing or reducing problematic gambling behavior, with several respondents doubting its ability to deter those who are determined to gamble. Some see the tool as a good idea or helpful for awareness, but there is a recurring sentiment that it may not be sufficient to change the habits of individuals with a strong inclination to gamble.</strong></p>
+<p class="rubric">Example responses:</p>
+<ul class="simple">
+<li><p>“good idea but not sure it wud make any difference”</p></li>
+<li><p>“no, it was ideal for those with a gambling problem.  i definitely haven’t”</p></li>
+<li><p>“it wouldn’t work for me as i rarely do online lottery”</p></li>
+<li><p>“i find the opportunity to be able to protect myself from spending all my money a very appealing and sensible idea.”</p></li>
+<li><p>“i think it seems like a good idea but having a gambling problem myself i don’t feel it would discourage people from spending more than they can afford”</p></li>
+<li><p>“its a great ide3a for people who can’t control their gambling”</p></li>
+<li><p>“i haven’t added any money to my ladbrokes account in the last 5 years and i use it regularly , my bet amount is 10p per bet and i’m doing quite well with it”</p></li>
+<li><p>“i think it would make people aware of their actions and financial position”</p></li>
+<li><p>“it’s a good idea, but you can still get cash out to gamble. so there are always ways round it”</p></li>
+<li><p>“i’d like to think this would be useful, but if people really want to gamble i don’t think this would stop them”</p></li>
+</ul>
+<p class="rubric">Cluster 3: 23 respondents.</p>
+<p class="rubric">Theme: <strong>The common theme is that while the gambling management tool is generally seen as intuitive and helpful, there are concerns about the ease with which limits can be changed or blocks can be removed, particularly for gambling addicts who might need stricter controls or cooling-off periods to effectively manage their gambling behavior.</strong></p>
+<p class="rubric">Example responses:</p>
+<ul class="simple">
+<li><p>“quite intuitive layout, the downside is if i was an addict i might want to set an unrealistic limit or disable the feature”</p></li>
+<li><p>“when someone mistakenly activates gambling block and decides to change their mind and set a limit instead, the waiting time on using the block should only be activated after pressing the block twice”</p></li>
+<li><p>“the gambling block is good but it can easily be turned off”</p></li>
+<li><p>“it wouldn’t really help a gambling addict as the block is to easy to remove after 48hrs”</p></li>
+<li><p>“the app includes a set of helpful, easy to use tools , and a user can better control his or her gambling behaviour by adjusting different account management settings”</p></li>
+<li><p>“a separate switch for setting gambling limit away from all other instructions would be clearer”</p></li>
+<li><p>“48hr limit needs to be longer 14 day would be better for gambling addicts”</p></li>
+<li><p>“i pressed to set a gambling limit but it was set at the default (30) and i was unable to change this. it was not clear to me how to change the limit”</p></li>
+<li><p>“good idea - may slow down problem gamblers slightly - give them a chance to “”cool off””. but since it’s auto-enrolment - don’t think it would help in all cases.
+like the design of the page and the 2 day freeze fascility.”</p></li>
+<li><p>“gambling limit lock should be harder to alter once set”</p></li>
+</ul>
+<p class="rubric">Cluster 4: 38 respondents.</p>
+<p class="rubric">Theme: <strong>The common theme in these answers is that the gambling management tool is generally perceived as easy to use and beneficial, but could benefit from a more modern design, including a dark mode, and secure login/logout features.</strong></p>
+<p class="rubric">Example responses:</p>
+<ul class="simple">
+<li><p>“i think it should be more modern and also have a dark mode”</p></li>
+<li><p>“it was a bit bland but i guess it was barebones for the survey”</p></li>
+<li><p>“it is easy to use once you have played around with it to get a feel as to its functions.”</p></li>
+<li><p>“no, it’s simple to use and looks great.”</p></li>
+<li><p>“it’s a clever bit of kit and will save a lot of people”</p></li>
+<li><p>“it was very simple to use and great at being a simple solution.”</p></li>
+<li><p>“easy to use. straight forward.would benefit alot of people.”</p></li>
+<li><p>“make it easy for users to log in and log out securely”</p></li>
+<li><p>“it was very quick and easy to do which may encourage me to use it”</p></li>
+<li><p>“it would be a good tool to add to the banking app.”</p></li>
+</ul>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># KeyError: &#39;mime_type&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="classification.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Classification (sentiment)</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="get_embeddings.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Calculate vector embeddings</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#find-the-clusters-using-k-means">Find the clusters using K-means</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualise-the-clusters">Visualise the clusters</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#describe-each-cluster">Describe each cluster</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Dan Kwiatkowski
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=5b4479735964841361fd"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
