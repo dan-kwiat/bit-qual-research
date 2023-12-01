@@ -8,5 +8,5 @@ root: README
 chapters:
   - file: README.md
   - file: classification.ipynb
-  # - file: clustering.ipynb
+  - file: clustering.ipynb
   # - file: get_embeddings.ipynb
