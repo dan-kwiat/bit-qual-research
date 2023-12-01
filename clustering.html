@@ -495,11 +495,11 @@ for more information on the other parameters this algorithm takes.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/var/folders/4c/5kctcgk55539047v8xy3clj80000gn/T/ipykernel_93324/2463245879.py:17: RuntimeWarning: Mean of empty slice.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/var/folders/4c/5kctcgk55539047v8xy3clj80000gn/T/ipykernel_94238/2463245879.py:17: RuntimeWarning: Mean of empty slice.
   avg_x = xs.mean()
 /opt/homebrew/lib/python3.11/site-packages/numpy/core/_methods.py:129: RuntimeWarning: invalid value encountered in divide
   ret = ret.dtype.type(ret / rcount)
-/var/folders/4c/5kctcgk55539047v8xy3clj80000gn/T/ipykernel_93324/2463245879.py:18: RuntimeWarning: Mean of empty slice.
+/var/folders/4c/5kctcgk55539047v8xy3clj80000gn/T/ipykernel_94238/2463245879.py:18: RuntimeWarning: Mean of empty slice.
   avg_y = ys.mean()
 </pre></div>
 </div>
@@ -514,7 +514,8 @@ for more information on the other parameters this algorithm takes.</p>
 <h2>Describe each cluster<a class="headerlink" href="#describe-each-cluster" title="Permalink to this heading">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">get_cluster_markdown</span><span class="p">(</span><span class="n">cluster</span><span class="p">):</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Note: the markdown can&#39;t contain a horizontal rule e.g. `---` as the jupyter book will fail to build with `KeyError: &#39;mime_type&#39;`</span>
+<span class="k">def</span> <span class="nf">get_cluster_markdown</span><span class="p">(</span><span class="n">cluster</span><span class="p">):</span>
     <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;### Cluster </span><span class="si">{</span><span class="n">cluster</span><span class="p">[</span><span class="s2">&quot;index&quot;</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s1">: </span><span class="si">{</span><span class="n">cluster</span><span class="p">[</span><span class="s2">&quot;num_responses&quot;</span><span class="p">]</span><span class="si">}</span><span class="s1"> respondents.</span><span class="se">\n\n</span><span class="s1">#### Theme: **</span><span class="si">{</span><span class="n">cluster</span><span class="p">[</span><span class="s2">&quot;summary&quot;</span><span class="p">]</span><span class="si">}</span><span class="s1">**</span><span class="se">\n\n</span><span class="s1">#### Example responses:</span><span class="se">\n\n</span><span class="si">{</span><span class="n">lib</span><span class="o">.</span><span class="n">get_answers_string</span><span class="p">(</span><span class="n">cluster</span><span class="p">[</span><span class="s2">&quot;subset&quot;</span><span class="p">])</span><span class="si">}</span><span class="se">\n\n\n</span><span class="s1">&#39;</span>
 </pre></div>
 </div>
@@ -541,7 +542,7 @@ for more information on the other parameters this algorithm takes.</p>
 </div>
 <div class="cell_output docutils container">
 <p class="rubric">Cluster 1: 39 respondents.</p>
-<p class="rubric">Theme: <strong>The common theme in these answers is feedback on the usability and effectiveness of the gambling management tool, with suggestions for improving the user interface, the time delay feature for changing limits, and the overall functionality to better support responsible gambling.</strong></p>
+<p class="rubric">Theme: <strong>The common theme is that users appreciate the concept of the gambling management tool but have suggestions for improving its design and functionality, such as adjusting the time delay for changes, enhancing the intuitiveness of the interface, and considering the tool’s limitations in controlling overall gambling spending.</strong></p>
 <p class="rubric">Example responses:</p>
 <ul class="simple">
 <li><p>“i struggled in trying to change the spending limit from £ 30 to £80. think i have locked my ability to do this for 48 hours.”</p></li>
@@ -556,7 +557,7 @@ for more information on the other parameters this algorithm takes.</p>
 <li><p>“i love the way you guys set a budget it make people know what they are doing”</p></li>
 </ul>
 <p class="rubric">Cluster 2: 30 respondents.</p>
-<p class="rubric">Theme: <strong>The common theme is skepticism about the effectiveness of the gambling management tool in preventing or reducing problematic gambling behavior, with several respondents doubting its ability to deter those who are determined to gamble. Some see the tool as a good idea or helpful for awareness, but there is a recurring sentiment that it may not be sufficient to change the habits of individuals with a strong inclination to gamble.</strong></p>
+<p class="rubric">Theme: <strong>The common theme is skepticism about the effectiveness of the gambling management tool in preventing excessive gambling, despite recognizing its potential benefits.</strong></p>
 <p class="rubric">Example responses:</p>
 <ul class="simple">
 <li><p>“good idea but not sure it wud make any difference”</p></li>
@@ -571,7 +572,7 @@ for more information on the other parameters this algorithm takes.</p>
 <li><p>“i’d like to think this would be useful, but if people really want to gamble i don’t think this would stop them”</p></li>
 </ul>
 <p class="rubric">Cluster 3: 23 respondents.</p>
-<p class="rubric">Theme: <strong>The common theme is that while the gambling management tool is generally seen as intuitive and helpful, there are concerns about the ease with which limits can be changed or blocks can be removed, particularly for gambling addicts who might need stricter controls or cooling-off periods to effectively manage their gambling behavior.</strong></p>
+<p class="rubric">Theme: <strong>The common theme is that users find the gambling management tool’s design generally intuitive and helpful, but express concerns about the ease of changing or disabling limits, suggesting a need for more stringent controls to effectively aid those with gambling addiction.</strong></p>
 <p class="rubric">Example responses:</p>
 <ul class="simple">
 <li><p>“quite intuitive layout, the downside is if i was an addict i might want to set an unrealistic limit or disable the feature”</p></li>
@@ -587,7 +588,7 @@ like the design of the page and the 2 day freeze fascility.”</p></li>
 <li><p>“gambling limit lock should be harder to alter once set”</p></li>
 </ul>
 <p class="rubric">Cluster 4: 38 respondents.</p>
-<p class="rubric">Theme: <strong>The common theme in these answers is that the gambling management tool is generally perceived as easy to use and beneficial, but could benefit from a more modern design, including a dark mode, and secure login/logout features.</strong></p>
+<p class="rubric">Theme: <strong>The common theme in these answers is that the gambling management tool is generally perceived as easy to use and beneficial, but could benefit from a more modern design and features like a dark mode.</strong></p>
 <p class="rubric">Example responses:</p>
 <ul class="simple">
 <li><p>“i think it should be more modern and also have a dark mode”</p></li>
@@ -601,13 +602,6 @@ like the design of the page and the 2 day freeze fascility.”</p></li>
 <li><p>“it was very quick and easy to do which may encourage me to use it”</p></li>
 <li><p>“it would be a good tool to add to the banking app.”</p></li>
 </ul>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># KeyError: &#39;mime_type&#39;</span>
-</pre></div>
-</div>
 </div>
 </div>
 </section>

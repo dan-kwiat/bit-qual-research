@@ -27,7 +27,7 @@ def summarise_answers(survey_context: str, question: str, answers: list):
         model="gpt-4-1106-preview",
         messages=[
           # {"role": "system", "content": "You are a helpful assistant."},
-          {"role": "user", "content": f'I am analysing results from a survey. {survey_context}\n\nHere are some answers to the survey question "{question}"\n\nAnswers:\n{get_answers_string(answers)}\n\nWhat is the common theme in these answers? Respond directly with the common theme, without any preamble.'}
+          {"role": "user", "content": f'I am analysing results from a survey. {survey_context}\n\nHere are some answers to the survey question "{question}"\n\nAnswers:\n{get_answers_string(answers)}\n\nWhat is the common theme in these answers? Respond directly with a single sentence describing the common theme, without any preamble.'}
         ],
         temperature=0.1,
         max_tokens=100
