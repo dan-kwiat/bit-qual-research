@@ -3,6 +3,12 @@
 
 title: Jupyter Book Demo
 author: Dan Kwiatkowski
+only_build_toc_files: true
+
+sphinx:
+  config:
+    suppress_warnings: ["myst.nested_header"]
+
 # logo: logo.png
 
 # Execute files that are missing at least one output
@@ -11,9 +17,9 @@ execute:
   execute_notebooks: "off"
 
 # Define the name of the latex output file for PDF builds
-latex:
-  latex_documents:
-    targetname: book.tex
+# latex:
+#   latex_documents:
+#     targetname: book.tex
 
 # Add a bibtex file so that we can create citations
 # bibtex_bibfiles:
@@ -30,7 +36,6 @@ repository:
 html:
   use_issues_button: true
   use_repository_button: true
-
 # https://jupyterbook.org/en/stable/interactive/launchbuttons.html#add-a-launch-on-google-colab-button
-launch_buttons:
-  colab_url: "https://colab.research.google.com"
+# launch_buttons:
+#   colab_url: "https://colab.research.google.com"
